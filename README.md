@@ -16,9 +16,9 @@ Open the config.json and fill empty fields:
 
 ## Database
 1. [Download](https://www.mongodb.com/download-center#community) and install MongoDB.
-2. Assemble the database. You can find the architecture in "modules/database.js".
-OR
-1. [Download](----Coming_soon----) MongoDB with the assembled database, BUT many users must be added manually.
+2. Assemble the database. You can find the architecture in "modules/database.js".<br />
+OR<br />
+1. [Download](https://www.dropbox.com/s/cr1c8d8cb79hgo1/MongoDB.rar?dl=0) MongoDB with the assembled database, BUT many users must be added manually.
 
 ## Usage
 1. Launch "runDB" at "pathToMongo/bin/runDB.bat" (If you filled out the database yourself, you can download it [here](https://www.dropbox.com/s/w5gofcpcw024qn6/runDB.bat?dl=0))
