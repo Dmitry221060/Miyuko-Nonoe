@@ -1,5 +1,5 @@
 # DiscordBot
-This project is a bot, developed by me for the [DS & HK server](https://discordapp.com/invite/sneu4V). If you want to use this project, you must do a few things. 
+This project is a bot, developed by me for the [DS & HK server](https://discord.gg/7KUZFKv). If you want to use this project, you must do a few things. 
 <br />**Note: To use 100% of the project features, you need to have a user and a bot accounts**
 
 ## Download all dependencies
