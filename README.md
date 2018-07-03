@@ -8,7 +8,7 @@ npm i discord.js express express-fileupload body-parser mongodb winston jsdom re
 ## Configure
 Open the config.json and fill empty fields:
 
-1. logger.path - Absolute path to the main directory (ex. "C:\Projects\DiscordBot")
+1. logger.path - Absolute path to the main directory (ex. "C:\\Projects\\DiscordBot")
 2. token - The token of your account. You can also use the bot token, but you'll lose some features.
 3. botToken - The token of your bot. If in the previous step you used a bot token, duplicate it here.
 4. ownerIP - IPv4 address of the PC for remote control of the bot. If you don't need remote control, put here "::1" ![How to find](https://www.groovypost.com/wp-content/uploads/2009/10/image_417.png)
@@ -25,4 +25,4 @@ OR<br />
 2. Launch "run" at "pathToThisProject/run.bat"
 
 
-Done! Until you close the console windows, the bot will be online. If you need some help, add me in Discord - Dmitry221060#8728
+Done! Until you close the console windows, the bot will be online. If you need some help, add me in Discord - `Dmitry221060#8728`
