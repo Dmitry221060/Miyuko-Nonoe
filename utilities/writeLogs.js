@@ -1,4 +1,4 @@
-///Устаревший функционал
+///РЈСЃС‚Р°СЂРµРІС€РёР№ С„СѓРЅРєС†РёРѕРЅР°Р»
 const fs = require('fs');
 const logger = require("../modules/logger");
 
