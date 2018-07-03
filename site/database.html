@@ -1,493 +1,493 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta content="text/html; charset=utf-8">
-		<title>Управление базой данных</title>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-		<style>
-			@keyframes blink {
-				from {opacity: 0;}
-				35%, to {opacity: 1;}
-			}
-			
-			.menulist {
-				border: 1px solid #000;
-				display: inline-block;
-				background: #999;
-				font-family: arial;
-				color: #fff;
-				padding: 1px 15px 1px 15px;
-				border-radius: 3px;
-				font-weight: 600;
-				margin-right: 6px;
-				line-height: 19px;
-			}
-			
-			.wrap {
-				color: #eee;
-				display: none;
-				position: absolute;
-				font-weight: bold;
-				font-family: Garamond;
-			}
-			
-			#wrap2 {left: 84px;}
-			#wrap3 {left: 180px;}
-			
-			ul {
-			    list-style-type: none;
-				margin: 3px 5px;
-				padding: 0;
-			}
-			
-			.list {
-				width: 100px;
-				list-style-type: none;
-				margin: 0;
-				padding: 3px 5px;
-				border: 1px solid black;
-				background: #5b5d63;
-				border-radius: 3px;
-			}
-			
-			.list li {
-				padding: 3px;
-			}
-			
-			ul li {padding: 3px;}
-			.wrap .list li:hover {
-				background: #dcdcdc;
-				color: #000;
-			}
-			
-			#findBTN:hover ~ #wrap1, #wrap1:hover,
-			#updateBTN:hover ~ #wrap2, #wrap2:hover,
-			#insertBTN:hover ~ #wrap3, #wrap3:hover {
-				display: block;
-			}
-			
-			.secondMenu > ul > li {display: none;}
-			.wrap .secondMenu > ul > li > input {
-				margin: 0;
-				padding: 0;
-				width: 100%;
-			}
-			
-			#wrap2 .secondMenu > ul > li > input {
-				width: 100px;
-				float: right;
-				margin-left: 5px;
-			}
-			
-			.secondMenu {
-				border-radius: 3px;
-				border: 1px solid black;
-				background: #5b5d63;
-				color: #eee;
-				display: none;
-				position: absolute;
-				top: -4px;
-				left: 6px;
-				position: relative;
-			    max-width: 131px;
-			}
-			
-			#wrap2 .secondMenu {
-				max-width: none;
-			}
-			
-			#query {
-			    display: inline-block;
-				margin: 3px 2px 3px 5px;
-			}
-			
-			#data {
-				display: inline-block;
-				border-left: 1px solid gray;
-				margin: 3px 5px 3px 2px;
-			}
-			
-			.upsert input, .multi input {
-				width: 13px !important;
-				margin: 0;
-				position: relative;
-				top: 2px;
-				margin-left: 3px;
-			}
-			
-			.upsert, .multi {
-				float: left;
-			}
-			
-			.message {
-		        width: 330px;
-				height: 230px;
-				position: absolute;
-				left: calc(50% - 165px);
-				top: 100px;
-				border: 1px solid #555;
-				opacity: 0;
-				font-family: cursive;
-				box-sizing: border-box;
-				text-align: center;
-				padding-top: calc(115px - 0.5em);
-				line-height: 1em;
-			}
-			
-			.err {
-				background: #da5555;
-			}
-			
-			.success {
-				background: #55da72;
-			}
-			
-			table {
-				border-collapse: collapse;
-				width: 100%;
-				background: #fff;
-				word-break: break-word;
-			}
+    <head>
+        <meta content="text/html; charset=utf-8">
+        <title>Управление базой данных</title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <style>
+            @keyframes blink {
+                from {opacity: 0;}
+                35%, to {opacity: 1;}
+            }
+            
+            .menulist {
+                border: 1px solid #000;
+                display: inline-block;
+                background: #999;
+                font-family: arial;
+                color: #fff;
+                padding: 1px 15px 1px 15px;
+                border-radius: 3px;
+                font-weight: 600;
+                margin-right: 6px;
+                line-height: 19px;
+            }
+            
+            .wrap {
+                color: #eee;
+                display: none;
+                position: absolute;
+                font-weight: bold;
+                font-family: Garamond;
+            }
+            
+            #wrap2 {left: 84px;}
+            #wrap3 {left: 180px;}
+            
+            ul {
+                list-style-type: none;
+                margin: 3px 5px;
+                padding: 0;
+            }
+            
+            .list {
+                width: 100px;
+                list-style-type: none;
+                margin: 0;
+                padding: 3px 5px;
+                border: 1px solid black;
+                background: #5b5d63;
+                border-radius: 3px;
+            }
+            
+            .list li {
+                padding: 3px;
+            }
+            
+            ul li {padding: 3px;}
+            .wrap .list li:hover {
+                background: #dcdcdc;
+                color: #000;
+            }
+            
+            #findBTN:hover ~ #wrap1, #wrap1:hover,
+            #updateBTN:hover ~ #wrap2, #wrap2:hover,
+            #insertBTN:hover ~ #wrap3, #wrap3:hover {
+                display: block;
+            }
+            
+            .secondMenu > ul > li {display: none;}
+            .wrap .secondMenu > ul > li > input {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+            
+            #wrap2 .secondMenu > ul > li > input {
+                width: 100px;
+                float: right;
+                margin-left: 5px;
+            }
+            
+            .secondMenu {
+                border-radius: 3px;
+                border: 1px solid black;
+                background: #5b5d63;
+                color: #eee;
+                display: none;
+                position: absolute;
+                top: -4px;
+                left: 6px;
+                position: relative;
+                max-width: 131px;
+            }
+            
+            #wrap2 .secondMenu {
+                max-width: none;
+            }
+            
+            #query {
+                display: inline-block;
+                margin: 3px 2px 3px 5px;
+            }
+            
+            #data {
+                display: inline-block;
+                border-left: 1px solid gray;
+                margin: 3px 5px 3px 2px;
+            }
+            
+            .upsert input, .multi input {
+                width: 13px !important;
+                margin: 0;
+                position: relative;
+                top: 2px;
+                margin-left: 3px;
+            }
+            
+            .upsert, .multi {
+                float: left;
+            }
+            
+            .message {
+                width: 330px;
+                height: 230px;
+                position: absolute;
+                left: calc(50% - 165px);
+                top: 100px;
+                border: 1px solid #555;
+                opacity: 0;
+                font-family: cursive;
+                box-sizing: border-box;
+                text-align: center;
+                padding-top: calc(115px - 0.5em);
+                line-height: 1em;
+            }
+            
+            .err {
+                background: #da5555;
+            }
+            
+            .success {
+                background: #55da72;
+            }
+            
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                background: #fff;
+                word-break: break-word;
+            }
 
-			table, td {border: 1px solid black;}
-			
-			#table tr td:first-child, #table #header, #table #columnNames {
-				word-break: normal;
-			}
-			
-			tr:hover {background-color: #f5f5f5;}
-			
-			#loadPrevious, #loadNext {
-				margin: 6px 3px;
-				width: 40px;
-				height: 40px;
-				font-size: 2em;
-				font-weight: 600;
-				margin-bottom: 0px;
-			}
-			
-			#footerNav {
-				text-align: center;
-			}
-			
-			#pageInfo {
-				display: inline-block;
-				position: relative;
-				top: -6px;
-			}
-			
-			#backBTN {
-				text-decoration: none; 
-				float: right; 
-				border: 1px solid #000; 
-				background: #999; 
-				font-family: arial; 
-				color: #fff; 
-				padding: 2px 4px 1px 4px; 
-				border-radius: 2px; 
-				font-weight: 600;
-			}
-			
-		</style>
-	</head>
-	<body style="background: #ddd;">
-		<div id="nav">
-			<div id="findBTN" class="menulist">Find</div>
-			<div id="updateBTN" class="menulist">Update</div>
-			<div id="insertBTN" class="menulist">Insert</div>
-			<div id="wrap1" class="wrap">
-				<div class="list">
-					<li>DB_users</li>
-					<li>DB_logs</li>
-				</div>
-				<div class="secondMenu">
-					<ul>
-						<li class="userID"><span>userID</span><input type="text"/></li>
-						<li class="userName"><span>userName</span><input type="text"/></li>
-						<li class="userLogin"><span>userLogin</span><input type="text"/></li>
-						<li class="lastMessageDate"><span>lastMessageDate</span><input type="text"/></li>
-						<li class="spamCount"><span>spamCount</span><input type="text"/></li>
-						<li class="messageContent"><span>content</span><input type="text"/></li>
-					</ul>
-				</div>
-			</div>
-			<div id="wrap2" class="wrap">
-				<div class="list">
-					<li>DB_users</li>
-				</div>
-				<div class="secondMenu">
-					<ul id="query">
-						<li class="userID"><span>userID</span><input type="text"/></li>
-						<li class="userName"><span>userName</span><input type="text"/></li>
-						<li class="userLogin"><span>userLogin</span><input type="text"/></li>
-						<li class="lastMessageDate"><span>lastMessageDate</span><input type="text"/></li>
-						<li class="spamCount"><span>spamCount</span><input type="text"/></li>
-					</ul>
-					<ul id="data">
-						<li class="userID"><span>userID</span><input type="text"/></li>
-						<li class="userName"><span>userName</span><input type="text"/></li>
-						<li class="userLogin"><span>userLogin</span><input type="text"/></li>
-						<li class="lastMessageDate"><span>lastMessageDate</span><input type="text"/></li>
-						<li class="spamCount"><span>spamCount</span><input type="text"/></li>
-						<li class="upsert"><span>upsert</span><input type="checkbox"/></li>
-						<li class="multi"><span>multi</span><input type="checkbox"/></li>
-					</ul>
-				</div>
-			</div>
-			<div id="wrap3" class="wrap">
-				<div class="list">
-					<li>DB_users</li>
-				</div>
-				<div class="secondMenu">
-					<ul>
-						<li class="userID"><span>userID</span><input type="text"/></li>
-						<li class="userName"><span>userName</span><input type="text"/></li>
-						<li class="userLogin"><span>userLogin</span><input type="text"/></li>
-						<li class="lastMessageDate"><span>lastMessageDate</span><input type="text"/></li>
-						<li class="spamCount"><span>spamCount</span><input type="text"/></li>
-					</ul>
-				</div>
-			</div>
-			<a id="backBTN" href="#" onclick="window.location.href = window.location.origin">Back</a>
-		</div>
-		<div id="table" style="display:none">
-			<table>
-				<tr id="header"><th colspan="5"></th></tr>
-				<tr id="columnNames"></tr>
-			</table>
-		</div>
-		<div class="message err" style="display:none;"></div>
-		<div class="message success" style="display:none;"></div>
-		<script>
-			var method;
-			var param = {};
-			var collection;
-			$('.wrap .list li').on('click', function () { //При выборе коллекции
-				$('.wrap .secondMenu').attr("style", "display:none"); //Скрыть второй уровень
-				$('.wrap .secondMenu li').attr("style", "display:none"); //Сбросить настройки меню
-				$('#nav input').val(""); //Сбросить введённую информацию
-				param = {}; //Очистить переменную
-				$('.wrap').attr("style", ""); //Отфиксировать первый уровень
-				collection = this.innerText.replace("DB_", '') //Записать выбранную коллекцию
-				let elemID = this.parentElement.parentElement.id; //ID обёртки
-				if (elemID == "wrap1") { //Если метод - поиск 
-					method = "find";
-					if(collection == "users") { //Если коллекция пользователей - ID, Имя, Логин, Последнее сообщение, Количество предупреждений
-						$('#wrap1 .secondMenu li:not(.messageContent)').attr("style", "display:block");
-					} else { //Если коллекция сообщений - ID, messageContent
-						$('#wrap1 .secondMenu .userID').attr("style", "display:block");
-						$('#wrap1 .secondMenu .messageContent').attr("style", "display:block");
-					}
-				} else if (elemID == "wrap2") {
-					method = "update";
-					if (collection == "users") { //Если коллекция пользователей - ID, Имя, Логин, Последнее сообщение, Количество предупреждений, чекбоксы
-						$('#wrap2 .secondMenu li').attr("style", "display:block");
-					}
-				} else {
-					method = "insert";
-					if (collection == "users") { //Если коллекция пользователей - ID, Имя, Логин, Последнее сообщение, Количество предупреждений
-						$('#wrap3 .secondMenu li').attr("style", "display:block");
-					}
-				}
-				$('#' + elemID).attr("style", "display:block"); //Зафиксировать первый уровень
-				$('#' + elemID + " .secondMenu").attr("style", "display:block"); //Отобразить второй уровень
-			});
-			
-			$(document).on("click", function (e) { 
-				if (!$('.wrap').is(e.target) && $('.wrap').has(e.target).length === 0) { //При клике на любое свободное место
-					$('.wrap .secondMenu').attr("style", "display:none"); //Скрыть второй уровень
-					$('.wrap .secondMenu li').attr("style", "display:none"); //Сбросить настройки меню
-					$('#nav input').val(""); //Сбросить введённую информацию
-					param = {}; //Очистить переменную
-					$('.wrap').attr("style", ""); //Отфиксировать первый уровень
-				}
-			});
-		
-			$('#nav input').on("keyup, keydown, keypress", function (e) {
-				if (e.keyCode != 13) return; //Если нажали не энтер - прекратить обработку события
-				e.preventDefault();
-				param = {}; //Очистить переменную
-				if (method == 'find') { //Если запрашиваемый метод - поиск, занести в объект параметров все не пустые поля
-					function fillParam(val, fieldName, number) {
-						if (val != '') {
-							if ((/^\s*\{/).test(val)) { //Если в поле находится объект
-								try {
-									JSON.parse(val); //Попробовать спарсить его
-									param[fieldName] = val; //Если получилось - занести в объект
-								} catch (e) { //Если не получилось
-									param[fieldName] = val.replace(/\s{2,}/g, ' ').replace(/\s,/g, ',').replace(/(['"])?([a-zA-Z0-9_$]+)(['"])?:\s?/g, '"$2":').replace(/:(['"])?([^,:"'}]+)(['"])?/g, ': "$2"'); //Оформить вручную
-								}
-							} else {
-								if (number)
-									param[fieldName] = Number(val);
-								else
-									param[fieldName] = val;
-							}
-						}
-					}
-					
-					fillParam($('#wrap1 .secondMenu .userID input').val(), "userID");
-					fillParam($('#wrap1 .secondMenu .userName input').val(), "userName");
-					fillParam($('#wrap1 .secondMenu .userLogin input').val(), "userLogin");
-					fillParam($('#wrap1 .secondMenu .lastMessageDate input').val(), "lastMessageDate", true);
-					fillParam($('#wrap1 .secondMenu .spamCount input').val(), "spamCount", true);
-					fillParam($('#wrap1 .secondMenu .messageContent input').val(), "messageContent");
-					
-					if (collection == "users") //Если ищем пользователей
-						param = [param, {"stat": 0, "battle": 0}]; //Изменить структуру param
-				} else if (method == 'update') { //Если запрашиваемый метод - обновление
-					param = [{}, {"$set": {}}, {}]; //Изменить структуру param
-					if ($('#wrap2 .secondMenu #query .userID input').val() != '') //Заполнить первый объект - критерии поиска
-						param[0]["userID"] = $('#wrap2 .secondMenu #query .userID input').val();
-					if ($('#wrap2 .secondMenu #query .userName input').val() != '')
-						param[0]["userName"] = $('#wrap2 .secondMenu #query .userName input').val();
-					if ($('#wrap2 .secondMenu #query .userLogin input').val() != '')
-						param[0]["userLogin"] = $('#wrap2 .secondMenu #query .userLogin input').val();
-					if ($('#wrap2 .secondMenu #query .lastMessageDate input').val() != '')
-						param[0]["lastMessageDate"] = $('#wrap2 .secondMenu #query .lastMessageDate input').val();
-					if ($('#wrap2 .secondMenu #query .spamCount input').val() != '')
-						param[0]["spamCount"] = Number($('#wrap2 .secondMenu #query .spamCount input').val());
-					
-					if ($('#wrap2 .secondMenu #data .userID input').val() != '') //Заполнить второй объект - обновлённые данные
-						param[1]["$set"]["userID"] = $('#wrap2 .secondMenu #data .userID input').val();
-					if ($('#wrap2 .secondMenu #data .userName input').val() != '')
-						param[1]["$set"]["userName"] = $('#wrap2 .secondMenu #data .userName input').val();
-					if ($('#wrap2 .secondMenu #data .userLogin input').val() != '')
-						param[1]["$set"]["userLogin"] = $('#wrap2 .secondMenu #data .userLogin input').val();
-					if ($('#wrap2 .secondMenu #data .lastMessageDate input').val() != '')
-						param[1]["$set"]["lastMessageDate"] = $('#wrap2 .secondMenu #data .lastMessageDate input').val();
-					if ($('#wrap2 .secondMenu #data .spamCount input').val() != '')
-						param[1]["$set"]["spamCount"] = Number($('#wrap2 .secondMenu #data .spamCount input').val());
-						
-					if ($('#wrap2 .secondMenu #data .upsert input')[0].checked) //Заполнить третий объект - опции
-						param[2]["upsert"] = $('#wrap2 .secondMenu #data .upsert input')[0].checked;
-					if ($('#wrap2 .secondMenu #data .multi input')[0].checked) //Заполнить третий объект - опции
-						param[2]["multi"] = $('#wrap2 .secondMenu #data .multi input')[0].checked;
-				} else { //Если запрашиваемый метод - вставка, занести в объект параметров все не пустые поля
-					if ($('#wrap3 .secondMenu .userID input').val() != '')
-						param["userID"] = $('#wrap3 .secondMenu .userID input').val();
-					if ($('#wrap3 .secondMenu .userName input').val() != '')
-						param["userName"] = $('#wrap3 .secondMenu .userName input').val();
-					if ($('#wrap3 .secondMenu .userLogin input').val() != '')
-						param["userLogin"] = $('#wrap3 .secondMenu .userLogin input').val();
-					if ($('#wrap3 .secondMenu .lastMessageDate input').val() != '')
-						param["lastMessageDate"] = $('#wrap3 .secondMenu .lastMessageDate input').val();
-					if ($('#wrap3 .secondMenu .spamCount input').val() != '')
-						param["spamCount"] = Number($('#wrap3 .secondMenu .spamCount input').val());
-					param["stat"] = {};
-					param["battle"] = {
-						lvl: 0,
-						exp: 0,
-						bonusHealth: 0,
-						bonusDamage: 0,
-						bonusMagic: 0
-					};
-				}
-				console.log(JSON.stringify(param), method,collection)
-				$.ajax({
-					url: window.location.origin + "/database_api",
-					type: "POST",
-					data: {
-						"method": method, 
-						"param": JSON.stringify(param),
-						"collectionName": collection
-					},
-					success: function (data) { //Успешный запрос к серверу
-						if (method != "find") { //Если нам не важен ответ от сервера
-							$('.message.success').text(data); //Записать его в сообщение
-							$('.message.success').attr("style", "display:block; animation: blink 2s 2 alternate;"); //Отобразить его
-							setTimeout(function () {$('.message.success').attr("style", "display:none;")}, 4000); //И убрать анимацию через 4 секунды, для повторного использования
-						} else if (data.length != 0) { //Если метод был find и данные присутствуют - собрать таблицу
-							$('#table table').html('<tr id="header"><th colspan="10"></th></tr><tr id="columnNames"></tr>'); //Сбросить данные в таблице
-							$("#footerNav").remove();
-							$("table #header th").text("DB_" + collection) //Записать название коллекции
-							document.querySelector("#table").style.display = "block"
-							
-							window.table_data = data;
-							window.table_template = [];
-							window.table_nowPage = 0;
-							window.table_maxPages = Math.ceil(data.length/1000);
-							window.table_processedData = -1000;
-							for (let key in table_data[0]) { 
-								$('table #columnNames').append("<td>" + key + "</td>"); //Заполнить заголовки таблицы
-								table_template.push(key); //И запомнить их названия
-							}
-							
-							window.buildData = function (more) { //Заполняет таблицу пачками по 1000 записей
-								if ((!more && table_nowPage == 1) || (more && table_nowPage == table_maxPages)) return;
-								$("table tr:not(#header):not(#columnNames)").remove(); //Очистить прошлые результаты
-								if (table_data.length > 1000 ) { //Если кнопки навигации нужны
-									if (!$("#footerNav").length) { //Построить их, если их нет
-										$('body').append('<div id="footerNav"><input id="loadPrevious" value="\<" type="button" onclick="buildData(false);"/><div id="pageInfo"><span id="nowPage">1</span> из ' + table_maxPages + '</div><input id="loadNext" value="\>" type="button" onclick="buildData(true);" /></div>');
-									}
-								} else { //Иначе
-									if ($("#footerNav").length) { //Удалить их, если они есть
-										$("#footerNav").remove();
-									}
-								}
-								window.scroll(0, 0);
-								if (more) { //Если листаем вправо
-									table_processedData += 1000;
-									if (table_nowPage + 1 != table_maxPages) { //Если следующая страница - не последняя
-										let trs = "";
-										for (let i = 0; i < 1000; i++) {
-											let tds = "";
-											for (let j = 0; j < table_template.length; j++) { 
-												tds += "<td>" + table_data[table_processedData + i][table_template[j]] + "</td>";
-											}
-											trs += "<tr>" + tds + "</tr>";
-										}
-										document.querySelector("#table tbody").innerHTML += trs;
-									} else {
-										let trs = "";
-										for (let i = 0; i < table_data.length - table_processedData; i++) {
-											let tds = "";
-											for (let j = 0; j < table_template.length; j++) {
-												tds += "<td>" + table_data[table_processedData + i][table_template[j]] + "</td>";
-											}
-											trs += "<tr>" + tds + "</tr>";
-										}
-										document.querySelector("#table tbody").innerHTML += trs;
-									}
-									table_nowPage++;
-									$('#nowPage').text(table_nowPage);
-								} else { //Если листаем влево
-									table_processedData -= 1000;
-									let trs = "";
-									for (let i = 0; i < 1000; i++) {
-										let tds = "";
-										for (let j = 0; j < table_template.length; j++) { 
-											tds += "<td>" + table_data[table_processedData + i][table_template[j]] + "</td>";
-										}
-										trs += "<tr>" + tds + "</tr>";
-									}
-									document.querySelector("#table tbody").innerHTML += trs;
-									table_nowPage--;
-									$('#nowPage').text(table_nowPage);
-								}
-							}
-							
-							buildData(true);
-							
-							$('.wrap .secondMenu').attr("style", "display:none"); //Скрыть второй уровень
-							$('.wrap .secondMenu li').attr("style", "display:none"); //Сбросить настройки меню
-							$('#nav input').val(""); //Сбросить введённую информацию
-							param = {}; //Очистить переменную
-							$('.wrap').attr("style", ""); //Отфиксировать первый уровень
-						} else {
-							$('.message.err').text("Ничего не найдено"); //Записать её в сообщение
-							$('.message.err').attr("style", "display:block; animation: blink 2s 2 alternate;"); //Отобразить его
-							setTimeout(function () {$('.message.err').attr("style", "display:none;")}, 4000); //И убрать анимацию через 4 секунды, для повторного использования
-						}
-					},
-					error: function (err) { //Провальный запрос к серверу
-						console.log("Сервер вернул ошибку - " + JSON.stringify(err));
-						$('.message.err').text(err.responseText); //Записать её в сообщение
-						$('.message.err').attr("style","display:block; animation: blink 2s 2 alternate;"); //Отобразить его
-						setTimeout(function () {$('.message.err').attr("style", "display:none;")}, 4000); //И убрать анимацию через 4 секунды, для повторного использования
-					}
-				});
-			});
-		</script>
-	</body>
+            table, td {border: 1px solid black;}
+            
+            #table tr td:first-child, #table #header, #table #columnNames {
+                word-break: normal;
+            }
+            
+            tr:hover {background-color: #f5f5f5;}
+            
+            #loadPrevious, #loadNext {
+                margin: 6px 3px;
+                width: 40px;
+                height: 40px;
+                font-size: 2em;
+                font-weight: 600;
+                margin-bottom: 0px;
+            }
+            
+            #footerNav {
+                text-align: center;
+            }
+            
+            #pageInfo {
+                display: inline-block;
+                position: relative;
+                top: -6px;
+            }
+            
+            #backBTN {
+                text-decoration: none; 
+                float: right; 
+                border: 1px solid #000; 
+                background: #999; 
+                font-family: arial; 
+                color: #fff; 
+                padding: 2px 4px 1px 4px; 
+                border-radius: 2px; 
+                font-weight: 600;
+            }
+            
+        </style>
+    </head>
+    <body style="background: #ddd;">
+        <div id="nav">
+            <div id="findBTN" class="menulist">Find</div>
+            <div id="updateBTN" class="menulist">Update</div>
+            <div id="insertBTN" class="menulist">Insert</div>
+            <div id="wrap1" class="wrap">
+                <div class="list">
+                    <li>DB_users</li>
+                    <li>DB_logs</li>
+                </div>
+                <div class="secondMenu">
+                    <ul>
+                        <li class="userID"><span>userID</span><input type="text"/></li>
+                        <li class="userName"><span>userName</span><input type="text"/></li>
+                        <li class="userLogin"><span>userLogin</span><input type="text"/></li>
+                        <li class="lastMessageDate"><span>lastMessageDate</span><input type="text"/></li>
+                        <li class="spamCount"><span>spamCount</span><input type="text"/></li>
+                        <li class="messageContent"><span>content</span><input type="text"/></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="wrap2" class="wrap">
+                <div class="list">
+                    <li>DB_users</li>
+                </div>
+                <div class="secondMenu">
+                    <ul id="query">
+                        <li class="userID"><span>userID</span><input type="text"/></li>
+                        <li class="userName"><span>userName</span><input type="text"/></li>
+                        <li class="userLogin"><span>userLogin</span><input type="text"/></li>
+                        <li class="lastMessageDate"><span>lastMessageDate</span><input type="text"/></li>
+                        <li class="spamCount"><span>spamCount</span><input type="text"/></li>
+                    </ul>
+                    <ul id="data">
+                        <li class="userID"><span>userID</span><input type="text"/></li>
+                        <li class="userName"><span>userName</span><input type="text"/></li>
+                        <li class="userLogin"><span>userLogin</span><input type="text"/></li>
+                        <li class="lastMessageDate"><span>lastMessageDate</span><input type="text"/></li>
+                        <li class="spamCount"><span>spamCount</span><input type="text"/></li>
+                        <li class="upsert"><span>upsert</span><input type="checkbox"/></li>
+                        <li class="multi"><span>multi</span><input type="checkbox"/></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="wrap3" class="wrap">
+                <div class="list">
+                    <li>DB_users</li>
+                </div>
+                <div class="secondMenu">
+                    <ul>
+                        <li class="userID"><span>userID</span><input type="text"/></li>
+                        <li class="userName"><span>userName</span><input type="text"/></li>
+                        <li class="userLogin"><span>userLogin</span><input type="text"/></li>
+                        <li class="lastMessageDate"><span>lastMessageDate</span><input type="text"/></li>
+                        <li class="spamCount"><span>spamCount</span><input type="text"/></li>
+                    </ul>
+                </div>
+            </div>
+            <a id="backBTN" href="#" onclick="window.location.href = window.location.origin">Back</a>
+        </div>
+        <div id="table" style="display:none">
+            <table>
+                <tr id="header"><th colspan="5"></th></tr>
+                <tr id="columnNames"></tr>
+            </table>
+        </div>
+        <div class="message err" style="display:none;"></div>
+        <div class="message success" style="display:none;"></div>
+        <script>
+            var method;
+            var param = {};
+            var collection;
+            $('.wrap .list li').on('click', function () { //При выборе коллекции
+                $('.wrap .secondMenu').attr("style", "display:none"); //Скрыть второй уровень
+                $('.wrap .secondMenu li').attr("style", "display:none"); //Сбросить настройки меню
+                $('#nav input').val(""); //Сбросить введённую информацию
+                param = {}; //Очистить переменную
+                $('.wrap').attr("style", ""); //Отфиксировать первый уровень
+                collection = this.innerText.replace("DB_", '') //Записать выбранную коллекцию
+                let elemID = this.parentElement.parentElement.id; //ID обёртки
+                if (elemID == "wrap1") { //Если метод - поиск 
+                    method = "find";
+                    if (collection == "users") { //Если коллекция пользователей - ID, Имя, Логин, Последнее сообщение, Количество предупреждений
+                        $('#wrap1 .secondMenu li:not(.messageContent)').attr("style", "display:block");
+                    } else { //Если коллекция сообщений - ID, messageContent
+                        $('#wrap1 .secondMenu .userID').attr("style", "display:block");
+                        $('#wrap1 .secondMenu .messageContent').attr("style", "display:block");
+                    }
+                } else if (elemID == "wrap2") {
+                    method = "update";
+                    if (collection == "users") { //Если коллекция пользователей - ID, Имя, Логин, Последнее сообщение, Количество предупреждений, чекбоксы
+                        $('#wrap2 .secondMenu li').attr("style", "display:block");
+                    }
+                } else {
+                    method = "insert";
+                    if (collection == "users") { //Если коллекция пользователей - ID, Имя, Логин, Последнее сообщение, Количество предупреждений
+                        $('#wrap3 .secondMenu li').attr("style", "display:block");
+                    }
+                }
+                $('#' + elemID).attr("style", "display:block"); //Зафиксировать первый уровень
+                $('#' + elemID + " .secondMenu").attr("style", "display:block"); //Отобразить второй уровень
+            });
+            
+            $(document).on("click", function (e) { 
+                if (!$('.wrap').is(e.target) && $('.wrap').has(e.target).length === 0) { //При клике на любое свободное место
+                    $('.wrap .secondMenu').attr("style", "display:none"); //Скрыть второй уровень
+                    $('.wrap .secondMenu li').attr("style", "display:none"); //Сбросить настройки меню
+                    $('#nav input').val(""); //Сбросить введённую информацию
+                    param = {}; //Очистить переменную
+                    $('.wrap').attr("style", ""); //Отфиксировать первый уровень
+                }
+            });
+        
+            $('#nav input').on("keyup, keydown, keypress", function (e) {
+                if (e.keyCode != 13) return; //Если нажали не энтер - прекратить обработку события
+                e.preventDefault();
+                param = {}; //Очистить переменную
+                if (method == 'find') { //Если запрашиваемый метод - поиск, занести в объект параметров все не пустые поля
+                    function fillParam(val, fieldName, number) {
+                        if (val != '') {
+                            if ((/^\s*\{/).test(val)) { //Если в поле находится объект
+                                try {
+                                    JSON.parse(val); //Попробовать спарсить его
+                                    param[fieldName] = val; //Если получилось - занести в объект
+                                } catch (e) { //Если не получилось
+                                    param[fieldName] = val.replace(/\s{2,}/g, ' ').replace(/\s,/g, ',').replace(/(['"])?([a-zA-Z0-9_$]+)(['"])?:\s?/g, '"$2":').replace(/:(['"])?([^,:"'}]+)(['"])?/g, ': "$2"'); //Оформить вручную
+                                }
+                            } else {
+                                if (number)
+                                    param[fieldName] = Number(val);
+                                else
+                                    param[fieldName] = val;
+                            }
+                        }
+                    }
+                    
+                    fillParam($('#wrap1 .secondMenu .userID input').val(), "userID");
+                    fillParam($('#wrap1 .secondMenu .userName input').val(), "userName");
+                    fillParam($('#wrap1 .secondMenu .userLogin input').val(), "userLogin");
+                    fillParam($('#wrap1 .secondMenu .lastMessageDate input').val(), "lastMessageDate", true);
+                    fillParam($('#wrap1 .secondMenu .spamCount input').val(), "spamCount", true);
+                    fillParam($('#wrap1 .secondMenu .messageContent input').val(), "messageContent");
+                    
+                    if (collection == "users") //Если ищем пользователей
+                        param = [param, {"stat": 0, "battle": 0}]; //Изменить структуру param
+                } else if (method == 'update') { //Если запрашиваемый метод - обновление
+                    param = [{}, {"$set": {}}, {}]; //Изменить структуру param
+                    if ($('#wrap2 .secondMenu #query .userID input').val() != '') //Заполнить первый объект - критерии поиска
+                        param[0]["userID"] = $('#wrap2 .secondMenu #query .userID input').val();
+                    if ($('#wrap2 .secondMenu #query .userName input').val() != '')
+                        param[0]["userName"] = $('#wrap2 .secondMenu #query .userName input').val();
+                    if ($('#wrap2 .secondMenu #query .userLogin input').val() != '')
+                        param[0]["userLogin"] = $('#wrap2 .secondMenu #query .userLogin input').val();
+                    if ($('#wrap2 .secondMenu #query .lastMessageDate input').val() != '')
+                        param[0]["lastMessageDate"] = $('#wrap2 .secondMenu #query .lastMessageDate input').val();
+                    if ($('#wrap2 .secondMenu #query .spamCount input').val() != '')
+                        param[0]["spamCount"] = Number($('#wrap2 .secondMenu #query .spamCount input').val());
+                    
+                    if ($('#wrap2 .secondMenu #data .userID input').val() != '') //Заполнить второй объект - обновлённые данные
+                        param[1]["$set"]["userID"] = $('#wrap2 .secondMenu #data .userID input').val();
+                    if ($('#wrap2 .secondMenu #data .userName input').val() != '')
+                        param[1]["$set"]["userName"] = $('#wrap2 .secondMenu #data .userName input').val();
+                    if ($('#wrap2 .secondMenu #data .userLogin input').val() != '')
+                        param[1]["$set"]["userLogin"] = $('#wrap2 .secondMenu #data .userLogin input').val();
+                    if ($('#wrap2 .secondMenu #data .lastMessageDate input').val() != '')
+                        param[1]["$set"]["lastMessageDate"] = $('#wrap2 .secondMenu #data .lastMessageDate input').val();
+                    if ($('#wrap2 .secondMenu #data .spamCount input').val() != '')
+                        param[1]["$set"]["spamCount"] = Number($('#wrap2 .secondMenu #data .spamCount input').val());
+                        
+                    if ($('#wrap2 .secondMenu #data .upsert input')[0].checked) //Заполнить третий объект - опции
+                        param[2]["upsert"] = $('#wrap2 .secondMenu #data .upsert input')[0].checked;
+                    if ($('#wrap2 .secondMenu #data .multi input')[0].checked) //Заполнить третий объект - опции
+                        param[2]["multi"] = $('#wrap2 .secondMenu #data .multi input')[0].checked;
+                } else { //Если запрашиваемый метод - вставка, занести в объект параметров все не пустые поля
+                    if ($('#wrap3 .secondMenu .userID input').val() != '')
+                        param["userID"] = $('#wrap3 .secondMenu .userID input').val();
+                    if ($('#wrap3 .secondMenu .userName input').val() != '')
+                        param["userName"] = $('#wrap3 .secondMenu .userName input').val();
+                    if ($('#wrap3 .secondMenu .userLogin input').val() != '')
+                        param["userLogin"] = $('#wrap3 .secondMenu .userLogin input').val();
+                    if ($('#wrap3 .secondMenu .lastMessageDate input').val() != '')
+                        param["lastMessageDate"] = $('#wrap3 .secondMenu .lastMessageDate input').val();
+                    if ($('#wrap3 .secondMenu .spamCount input').val() != '')
+                        param["spamCount"] = Number($('#wrap3 .secondMenu .spamCount input').val());
+                    param["stat"] = {};
+                    param["battle"] = {
+                        lvl: 0,
+                        exp: 0,
+                        bonusHealth: 0,
+                        bonusDamage: 0,
+                        bonusMagic: 0
+                    };
+                }
+                console.log(JSON.stringify(param), method,collection)
+                $.ajax({
+                    url: window.location.origin + "/database_api",
+                    type: "POST",
+                    data: {
+                        "method": method, 
+                        "param": JSON.stringify(param),
+                        "collectionName": collection
+                    },
+                    success: function (data) { //Успешный запрос к серверу
+                        if (method != "find") { //Если нам не важен ответ от сервера
+                            $('.message.success').text(data); //Записать его в сообщение
+                            $('.message.success').attr("style", "display:block; animation: blink 2s 2 alternate;"); //Отобразить его
+                            setTimeout(function () {$('.message.success').attr("style", "display:none;")}, 4000); //И убрать анимацию через 4 секунды, для повторного использования
+                        } else if (data.length != 0) { //Если метод был find и данные присутствуют - собрать таблицу
+                            $('#table table').html('<tr id="header"><th colspan="10"></th></tr><tr id="columnNames"></tr>'); //Сбросить данные в таблице
+                            $("#footerNav").remove();
+                            $("table #header th").text("DB_" + collection) //Записать название коллекции
+                            document.querySelector("#table").style.display = "block"
+                            
+                            window.table_data = data;
+                            window.table_template = [];
+                            window.table_nowPage = 0;
+                            window.table_maxPages = Math.ceil(data.length/1000);
+                            window.table_processedData = -1000;
+                            for (let key in table_data[0]) { 
+                                $('table #columnNames').append("<td>" + key + "</td>"); //Заполнить заголовки таблицы
+                                table_template.push(key); //И запомнить их названия
+                            }
+                            
+                            window.buildData = function (more) { //Заполняет таблицу пачками по 1000 записей
+                                if ((!more && table_nowPage == 1) || (more && table_nowPage == table_maxPages)) return;
+                                $("table tr:not(#header):not(#columnNames)").remove(); //Очистить прошлые результаты
+                                if (table_data.length > 1000 ) { //Если кнопки навигации нужны
+                                    if (!$("#footerNav").length) { //Построить их, если их нет
+                                        $('body').append('<div id="footerNav"><input id="loadPrevious" value="\<" type="button" onclick="buildData(false);"/><div id="pageInfo"><span id="nowPage">1</span> из ' + table_maxPages + '</div><input id="loadNext" value="\>" type="button" onclick="buildData(true);" /></div>');
+                                    }
+                                } else { //Иначе
+                                    if ($("#footerNav").length) { //Удалить их, если они есть
+                                        $("#footerNav").remove();
+                                    }
+                                }
+                                window.scroll(0, 0);
+                                if (more) { //Если листаем вправо
+                                    table_processedData += 1000;
+                                    if (table_nowPage + 1 != table_maxPages) { //Если следующая страница - не последняя
+                                        let trs = "";
+                                        for (let i = 0; i < 1000; i++) {
+                                            let tds = "";
+                                            for (let j = 0; j < table_template.length; j++) { 
+                                                tds += "<td>" + table_data[table_processedData + i][table_template[j]] + "</td>";
+                                            }
+                                            trs += "<tr>" + tds + "</tr>";
+                                        }
+                                        document.querySelector("#table tbody").innerHTML += trs;
+                                    } else {
+                                        let trs = "";
+                                        for (let i = 0; i < table_data.length - table_processedData; i++) {
+                                            let tds = "";
+                                            for (let j = 0; j < table_template.length; j++) {
+                                                tds += "<td>" + table_data[table_processedData + i][table_template[j]] + "</td>";
+                                            }
+                                            trs += "<tr>" + tds + "</tr>";
+                                        }
+                                        document.querySelector("#table tbody").innerHTML += trs;
+                                    }
+                                    table_nowPage++;
+                                    $('#nowPage').text(table_nowPage);
+                                } else { //Если листаем влево
+                                    table_processedData -= 1000;
+                                    let trs = "";
+                                    for (let i = 0; i < 1000; i++) {
+                                        let tds = "";
+                                        for (let j = 0; j < table_template.length; j++) { 
+                                            tds += "<td>" + table_data[table_processedData + i][table_template[j]] + "</td>";
+                                        }
+                                        trs += "<tr>" + tds + "</tr>";
+                                    }
+                                    document.querySelector("#table tbody").innerHTML += trs;
+                                    table_nowPage--;
+                                    $('#nowPage').text(table_nowPage);
+                                }
+                            }
+                            
+                            buildData(true);
+                            
+                            $('.wrap .secondMenu').attr("style", "display:none"); //Скрыть второй уровень
+                            $('.wrap .secondMenu li').attr("style", "display:none"); //Сбросить настройки меню
+                            $('#nav input').val(""); //Сбросить введённую информацию
+                            param = {}; //Очистить переменную
+                            $('.wrap').attr("style", ""); //Отфиксировать первый уровень
+                        } else {
+                            $('.message.err').text("Ничего не найдено"); //Записать её в сообщение
+                            $('.message.err').attr("style", "display:block; animation: blink 2s 2 alternate;"); //Отобразить его
+                            setTimeout(function () {$('.message.err').attr("style", "display:none;")}, 4000); //И убрать анимацию через 4 секунды, для повторного использования
+                        }
+                    },
+                    error: function (err) { //Провальный запрос к серверу
+                        console.log("Сервер вернул ошибку - " + JSON.stringify(err));
+                        $('.message.err').text(err.responseText); //Записать её в сообщение
+                        $('.message.err').attr("style","display:block; animation: blink 2s 2 alternate;"); //Отобразить его
+                        setTimeout(function () {$('.message.err').attr("style", "display:none;")}, 4000); //И убрать анимацию через 4 секунды, для повторного использования
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>
