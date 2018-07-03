@@ -1,139 +1,139 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta content="text/html; charset=utf-8">
-		<title>Просмотр файлов и директорий</title>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-		<style>
-			#items {
-			    width: 100%;
-				background: #FFF;
-				border-radius: 4px;
-				border: 1px solid #000;
-				white-space: pre;
-			}
-			
-			#items > item {
-				border: none;
-			}
-			
-			.item {
-				border-top: 1px solid #000;
-				display: flex;
-				align-items: center;
-				margin-top: -1px;
-			}
-			
-			.item:hover {
-				background: rgba(51, 153, 255, 0.2);
-			}
-			
-			.item > div { 
-				display: inline-block;
-				font-family: arial;
-				font-size: 16px;
-			}
-			
-			.item > div:first-child { 
-				line-height: 0px;
-			}
-			
-			.item img {
-				width: 25px;
-				margin: 2px;
-			}
-			
-			#back, #download {
-			    border: 1px solid #000;
-				display: inline-block;
-				background: #aaa;
-				font-family: arial;
-				color: #fff;
-				padding: 1px 10px 1px 10px;
-				border-radius: 3px;
-				font-weight: 600;
-				line-height: 19px;
-				cursor: pointer;
-			}
-			
-			#download a {
-			    color: #fff;
-				text-decoration: none;
-			}
-		</style>
-	</head>
-	<body style="background: #eee;">
-		<div id="back" style="display: none;">Back</div>
-		<div id="download" style="display: none;"><a href download>Download</a></div>
-		<div id="items"></div>
-		<script>
-			const icons = {
-				".bat": "/images/icon.bat.ico",
-				".bmp": "/images/icon.bmp.ico",
-				".css": "/images/icon.json.ico",
-				".exe": "/images/icon.exe.ico",
-				".gif": "/images/icon.gif.ico",
-				".html": "/images/icon.html.png",
-				".ico": "/images/icon.png.ico",
-				".jpg": "/images/icon.jpg.ico",
-				".jpeg": "/images/icon.jpg.ico",
-				".js": "/images/icon.js.png",
-				".json": "/images/icon.json.ico",
-				".png": "/images/icon.png.ico",
-				".txt": "/images/icon.txt.ico",
-				".vbs": "/images/icon.vbs.ico",
-				".rar": "/images/icon.rar.png",
-				".zip": "/images/icon.rar.png",
-				".": "/images/icon..ico"
-			}
-			
-			let curentPath = "."
-			parseDir();
-			function parseDir() {
-				if ($('#back')[0].style.display != "none") {
-					$('#back').hide();
-					$('#download').hide();
-				}
-				$('#items').html('');
-				$.get("/explore?path=" + curentPath).then(data => {
-					if (typeof data != 'object') data = JSON.parse(data);
-					if (data.type == 'dir') {
-						$('#items').append("<div class='item'><div><img src=/images/dir.ico></img></div><div>..</div></div>");
-						for (const item of data.files) {
-							let icon = "/images/dir.ico";
-							if (Object.values(item)[0].type == "file") {
-								icon = icons[Object.values(item)[0].extension] || "/images/default.png";
-							}
-							$('#items').append("<div class='item'><div><img src=" + icon + "></img></div><div>" + Object.keys(item)[0] + "</div></div>");
-						}
-					} else { 
-						$('#back').show();
-						$('#download').show();
-						if (data.type == 'img') {
-							$('#items').html('<img style="max-width: 100%;" src="data:image/' + data.ext + ';base64,' + data.content + '"></img>');
-						} else {
-							$('#items').text(data.content);
-						}
-					}
-				}).fail(err => { 
-					alert("Ошибка!");
-					console.log("Ошибка!", err);
-				});
-			}
-			
-			$(document).on('click', '.item', event => {
-				curentPath += "/" + event.currentTarget.childNodes[1].innerText;
-				parseDir();
-			});
-			
-			$('#back').on('click', event => { 
-				curentPath = curentPath.replace(/(.*)(?=\/).*/, '$1'); //Срезает последий "/" и всё после него
-				parseDir();
-			});
-			
-			$('#download').on('click', event => { 
-				$('#download a')[0].href = "./download?path=" + curentPath;
-			});
-		</script>
-	</body>
+    <head>
+        <meta content="text/html; charset=utf-8">
+        <title>Просмотр файлов и директорий</title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <style>
+            #items {
+                width: 100%;
+                background: #FFF;
+                border-radius: 4px;
+                border: 1px solid #000;
+                white-space: pre;
+            }
+            
+            #items > item {
+                border: none;
+            }
+            
+            .item {
+                border-top: 1px solid #000;
+                display: flex;
+                align-items: center;
+                margin-top: -1px;
+            }
+            
+            .item:hover {
+                background: rgba(51, 153, 255, 0.2);
+            }
+            
+            .item > div { 
+                display: inline-block;
+                font-family: arial;
+                font-size: 16px;
+            }
+            
+            .item > div:first-child { 
+                line-height: 0px;
+            }
+            
+            .item img {
+                width: 25px;
+                margin: 2px;
+            }
+            
+            #back, #download {
+                border: 1px solid #000;
+                display: inline-block;
+                background: #aaa;
+                font-family: arial;
+                color: #fff;
+                padding: 1px 10px 1px 10px;
+                border-radius: 3px;
+                font-weight: 600;
+                line-height: 19px;
+                cursor: pointer;
+            }
+            
+            #download a {
+                color: #fff;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body style="background: #eee;">
+        <div id="back" style="display: none;">Back</div>
+        <div id="download" style="display: none;"><a href download>Download</a></div>
+        <div id="items"></div>
+        <script>
+            const icons = {
+                ".bat": "/images/icon.bat.ico",
+                ".bmp": "/images/icon.bmp.ico",
+                ".css": "/images/icon.json.ico",
+                ".exe": "/images/icon.exe.ico",
+                ".gif": "/images/icon.gif.ico",
+                ".html": "/images/icon.html.png",
+                ".ico": "/images/icon.png.ico",
+                ".jpg": "/images/icon.jpg.ico",
+                ".jpeg": "/images/icon.jpg.ico",
+                ".js": "/images/icon.js.png",
+                ".json": "/images/icon.json.ico",
+                ".png": "/images/icon.png.ico",
+                ".txt": "/images/icon.txt.ico",
+                ".vbs": "/images/icon.vbs.ico",
+                ".rar": "/images/icon.rar.png",
+                ".zip": "/images/icon.rar.png",
+                ".": "/images/icon..ico"
+            }
+            
+            let curentPath = "."
+            parseDir();
+            function parseDir() {
+                if ($('#back')[0].style.display != "none") {
+                    $('#back').hide();
+                    $('#download').hide();
+                }
+                $('#items').html('');
+                $.get("/explore?path=" + curentPath).then(data => {
+                    if (typeof data != 'object') data = JSON.parse(data);
+                    if (data.type == 'dir') {
+                        $('#items').append("<div class='item'><div><img src=/images/dir.ico></img></div><div>..</div></div>");
+                        for (const item of data.files) {
+                            let icon = "/images/dir.ico";
+                            if (Object.values(item)[0].type == "file") {
+                                icon = icons[Object.values(item)[0].extension] || "/images/default.png";
+                            }
+                            $('#items').append("<div class='item'><div><img src=" + icon + "></img></div><div>" + Object.keys(item)[0] + "</div></div>");
+                        }
+                    } else { 
+                        $('#back').show();
+                        $('#download').show();
+                        if (data.type == 'img') {
+                            $('#items').html('<img style="max-width: 100%;" src="data:image/' + data.ext + ';base64,' + data.content + '"></img>');
+                        } else {
+                            $('#items').text(data.content);
+                        }
+                    }
+                }).fail(err => { 
+                    alert("Ошибка!");
+                    console.log("Ошибка!", err);
+                });
+            }
+            
+            $(document).on('click', '.item', event => {
+                curentPath += "/" + event.currentTarget.childNodes[1].innerText;
+                parseDir();
+            });
+            
+            $('#back').on('click', event => { 
+                curentPath = curentPath.replace(/(.*)(?=\/).*/, '$1'); //Срезает последий "/" и всё после него
+                parseDir();
+            });
+            
+            $('#download').on('click', event => { 
+                $('#download a')[0].href = "./download?path=" + curentPath;
+            });
+        </script>
+    </body>
 </html>
