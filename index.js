@@ -1,4 +1,4 @@
-﻿try {
+try {
 	const warning = require("./assets/json/spamWarnings");
 	const { download } = require('./modules/util');
 	const logger = require("./modules/logger");
