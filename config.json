@@ -1,0 +1,16 @@
+{
+	"express": {
+		"port": 8080
+	},
+	"mongodb": {
+		"url": "mongodb://localhost:27017/discordDB"
+	},
+	"logger": {
+		"debug": true,
+		"path": ""
+	},
+	"token": "",
+	"botToken": "",
+	"ownerIP": "",
+	"dropboxToken": ""
+}
