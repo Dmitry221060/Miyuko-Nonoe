@@ -1,147 +1,147 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta content="text/html; charset=utf-8">
-		<title>Состояние сервера</title>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-		<style>
-			.menu-list {
-				border: 1px solid #000;
-				display: inline-block;
-				background: #999;
-				font-family: arial;
-				color: #fff;
-				padding: 2px 4px 1px 4px;
-				border-radius: 2px;
-				font-weight: 600;
-			}
-			
-			#nav a {
-				text-decoration: none;
-				color: #fff;
-			}
-			
-			#links:hover ~ #linksDropdown, #linksDropdown:hover {
-				display: block;
-			}
-			
-			#linksDropdown {
-				color: #eee;
-				display: none;
-				position: absolute;
-				font-weight: bold;
-				font-family: Garamond;
-				left: 95px;
-			}
-			
-			.dropdown {
-				list-style-type: none;
-				margin: 0;
-				padding: 3px 5px;
-				border: 1px solid black;
-				background: #5b5d63;
-				border-radius: 3px;
-			}
-			
-			.dropdown li {padding: 3px}
-			
-			.dropdown li:hover {
-				background: #dcdcdc;
-				color: #000;
-			}
-			
-			.dropdown li:hover a {
-				color: #000 !important;
-			}
-		</style>
-	</head>
-	<body style="background: #ddd;">
-		<div id='nav'>
-			<div id="online" style="width:10px; height:10px; background:green; border-radius:100%; opacity:0"></div><br/>
-			<div id="chatLogs" class='menu-list'>Chat logs</div>
-			<div id="links" class="menu-list">Links</div>
-			<div id="processMonitor" class='menu-list'>Process monitoring</div>
-			<div id="killProcess" class='menu-list'>Shutdown</div>
-			<input id="killProcess_input" type="text" />
-			<div id="linksDropdown">
-				<div class="dropdown">
-					<li><a href="/errors">Errors</a></li>
-					<li><a href="/explore">Explore</a></li>
-					<li><a href="/update">Upload</a></li>
-				</div>
-			</div>
-			<a href="/database" style="margin-right: 4px; float: right; margin-top: -24px;" class="menu-list">Database API</a>
-		</div>
-		<pre id="chatLogs_content" style="white-space: pre-line;"></pre>
-		<div id="processMonitor_content"> 
-			<img class="loadingGif" style="display:none; height:40px;" src="images/loading.gif"></img>
-			<pre style="white-space: pre-line; word-wrap: break-word;"></pre>
-		</div>
-		<script>
-			let onl = 0;
-			$('#processMonitor_content').hide();
-			$('#killProcess_input').hide();
-			getLogs(50);
-			function getLogs(length) { //Подгрузка логов
-				$.get('/data?length=' + length).then(data => {
-					if (onl == 0) {
-						$('#online').attr({'style':'width:10px; height:10px; background:green; border-radius:100%; opacity:1'});
-						onl = 1;
-					}
-					if ($('pre#chatLogs_content').text() != data.join("\n"))
-						$('pre#chatLogs_content').text(data.join("\n"));
-					setTimeout(getLogs, 2000, 50);
-				}).error(err => {
-					if (onl == 1) {
-						$('#online').attr({'style':'width:10px; height:10px; background:#e21414; border-radius:100%; opacity:1'});
-						onl = 0;
-					}
-					setTimeout(getLogs, 2000, 50);
-				});
-			}
-			
-			// Меню - логи
-			$('body').on('click', '#chatLogs', () => { 
-				$('#chatLogs_content').show();
-				$('#processMonitor_content').hide();
-			});
-			
-			// Меню - мониторинг процессов 
-			$('body').on('click', '#processMonitor', () => { 
-				$('#processMonitor_content').show();
-				$('#chatLogs_content').hide();
-				$('#processMonitor_content .loadingGif').attr({'style' : 'display:block; height:40px;'});
-				$('#processMonitor_content pre').html('');
-				$.get('/monitor').then(data => {
-					data.dat = data.dat.slice(0, -3); //Убираем лишние элементы
-					let processes = '';
-					for (let i = 0; i < data.dat.length; i++) processes += data.dat[i] + '\n';
-					$('#processMonitor_content pre').text(processes);
-					$('.loadingGif').attr({'style' : 'display:none; height:40px;'});
-					$('#processMonitor_content pre').show();
-				});
-			});
-			
-			// Меню - завершение процессов
-			$('body').on('click', '#killProcess', () => { 
-				if ($('#killProcess_input').attr("style") == "display: none;")
-					$('#killProcess_input').show();
-				else
-					$('#killProcess_input').hide();
-			});
-			
-			$('#killProcess_input').on('keydown', e => {
-				if (e.keyCode == "13") {
-					e.preventDefault();
-					$.post('/kill', {"name": $('#killProcess_input').val()}).then(data => {
-						alert(data);
-						$('#killProcess_input').val("");
-					}).error(e => {
-						alert(data);
-						$('#killProcess_input').val("");
-					});
-				}
-			});
-		</script>
-	</body>
+    <head>
+        <meta content="text/html; charset=utf-8">
+        <title>Состояние сервера</title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <style>
+            .menu-list {
+                border: 1px solid #000;
+                display: inline-block;
+                background: #999;
+                font-family: arial;
+                color: #fff;
+                padding: 2px 4px 1px 4px;
+                border-radius: 2px;
+                font-weight: 600;
+            }
+            
+            #nav a {
+                text-decoration: none;
+                color: #fff;
+            }
+            
+            #links:hover ~ #linksDropdown, #linksDropdown:hover {
+                display: block;
+            }
+            
+            #linksDropdown {
+                color: #eee;
+                display: none;
+                position: absolute;
+                font-weight: bold;
+                font-family: Garamond;
+                left: 95px;
+            }
+            
+            .dropdown {
+                list-style-type: none;
+                margin: 0;
+                padding: 3px 5px;
+                border: 1px solid black;
+                background: #5b5d63;
+                border-radius: 3px;
+            }
+            
+            .dropdown li {padding: 3px}
+            
+            .dropdown li:hover {
+                background: #dcdcdc;
+                color: #000;
+            }
+            
+            .dropdown li:hover a {
+                color: #000 !important;
+            }
+        </style>
+    </head>
+    <body style="background: #ddd;">
+        <div id='nav'>
+            <div id="online" style="width:10px; height:10px; background:green; border-radius:100%; opacity:0"></div><br/>
+            <div id="chatLogs" class='menu-list'>Chat logs</div>
+            <div id="links" class="menu-list">Links</div>
+            <div id="processMonitor" class='menu-list'>Process monitoring</div>
+            <div id="killProcess" class='menu-list'>Shutdown</div>
+            <input id="killProcess_input" type="text" />
+            <div id="linksDropdown">
+                <div class="dropdown">
+                    <li><a href="/errors">Errors</a></li>
+                    <li><a href="/explore">Explore</a></li>
+                    <li><a href="/update">Upload</a></li>
+                </div>
+            </div>
+            <a href="/database" style="margin-right: 4px; float: right; margin-top: -24px;" class="menu-list">Database API</a>
+        </div>
+        <pre id="chatLogs_content" style="white-space: pre-line;"></pre>
+        <div id="processMonitor_content"> 
+            <img class="loadingGif" style="display:none; height:40px;" src="images/loading.gif"></img>
+            <pre style="white-space: pre-line; word-wrap: break-word;"></pre>
+        </div>
+        <script>
+            let onl = 0;
+            $('#processMonitor_content').hide();
+            $('#killProcess_input').hide();
+            getLogs(50);
+            function getLogs(length) { //Подгрузка логов
+                $.get('/data?length=' + length).then(data => {
+                    if (onl == 0) {
+                        $('#online').attr({'style':'width:10px; height:10px; background:green; border-radius:100%; opacity:1'});
+                        onl = 1;
+                    }
+                    if ($('pre#chatLogs_content').text() != data.join("\n"))
+                        $('pre#chatLogs_content').text(data.join("\n"));
+                    setTimeout(getLogs, 2000, 50);
+                }).error(err => {
+                    if (onl == 1) {
+                        $('#online').attr({'style':'width:10px; height:10px; background:#e21414; border-radius:100%; opacity:1'});
+                        onl = 0;
+                    }
+                    setTimeout(getLogs, 2000, 50);
+                });
+            }
+            
+            // Меню - логи
+            $('body').on('click', '#chatLogs', () => { 
+                $('#chatLogs_content').show();
+                $('#processMonitor_content').hide();
+            });
+            
+            // Меню - мониторинг процессов 
+            $('body').on('click', '#processMonitor', () => { 
+                $('#processMonitor_content').show();
+                $('#chatLogs_content').hide();
+                $('#processMonitor_content .loadingGif').attr({'style' : 'display:block; height:40px;'});
+                $('#processMonitor_content pre').html('');
+                $.get('/monitor').then(data => {
+                    data.dat = data.dat.slice(0, -3); //Убираем лишние элементы
+                    let processes = '';
+                    for (let i = 0; i < data.dat.length; i++) processes += data.dat[i] + '\n';
+                    $('#processMonitor_content pre').text(processes);
+                    $('.loadingGif').attr({'style' : 'display:none; height:40px;'});
+                    $('#processMonitor_content pre').show();
+                });
+            });
+            
+            // Меню - завершение процессов
+            $('body').on('click', '#killProcess', () => { 
+                if ($('#killProcess_input').attr("style") == "display: none;")
+                    $('#killProcess_input').show();
+                else
+                    $('#killProcess_input').hide();
+            });
+            
+            $('#killProcess_input').on('keydown', e => {
+                if (e.keyCode == "13") {
+                    e.preventDefault();
+                    $.post('/kill', {"name": $('#killProcess_input').val()}).then(data => {
+                        alert(data);
+                        $('#killProcess_input').val("");
+                    }).error(e => {
+                        alert(data);
+                        $('#killProcess_input').val("");
+                    });
+                }
+            });
+        </script>
+    </body>
 </html>
