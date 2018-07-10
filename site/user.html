@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <meta content="text/html; charset=utf-8">
@@ -20,25 +20,23 @@
     <body style="background: #ddd;">
         <div id='nav'>
             <div id="online" style="width:10px; height:10px; background:green; border-radius:100%; opacity:0"></div><br/>
-            <div id="clearLogs" class='menu-list'>Clear logs</div>
         </div>
         <pre id="chatLogs_content" style="white-space: pre-line;"></pre>
-        
         <script>
             let onl = 0;
             getLogs();
             function getLogs(){
-                $.get('/data').then(data => {
+                $.get('/data').done(data => {
                     if (onl == 0) {
-                        $('#online').attr({'style':'width:10px; height:10px; background:green; border-radius:100%; opacity:1'});
+                        $('#online').attr({ 'style': 'width:10px; height:10px; background:green; border-radius:100%; opacity:1' });
                         onl = 1;
                     }
                     if ($('pre#chatLogs_content').text() != data.join("\n"))
                         $('pre#chatLogs_content').text(data.join("\n"));
                     setTimeout(getLogs, 2000);
-                }).error(err => {
+                }).fail(() => {
                     if (onl == 1) {
-                        $('#online').attr({'style':'width:10px; height:10px; background:#e21414; border-radius:100%; opacity:1'});
+                        $('#online').attr({ 'style': 'width:10px; height:10px; background:#e21414; border-radius:100%; opacity:1' });
                         onl = 0;
                     }
                     setTimeout(getLogs, 2000);
