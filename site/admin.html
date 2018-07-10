@@ -83,17 +83,17 @@
             $('#killProcess_input').hide();
             getLogs(50);
             function getLogs(length) { //Подгрузка логов
-                $.get('/data?length=' + length).then(data => {
+                $.get('/data?length=' + length).done(data => {
                     if (onl == 0) {
-                        $('#online').attr({'style':'width:10px; height:10px; background:green; border-radius:100%; opacity:1'});
+                        $('#online').attr({ 'style': 'width:10px; height:10px; background:green; border-radius:100%; opacity:1' });
                         onl = 1;
                     }
                     if ($('pre#chatLogs_content').text() != data.join("\n"))
                         $('pre#chatLogs_content').text(data.join("\n"));
                     setTimeout(getLogs, 2000, 50);
-                }).error(err => {
+                }).fail(() => {
                     if (onl == 1) {
-                        $('#online').attr({'style':'width:10px; height:10px; background:#e21414; border-radius:100%; opacity:1'});
+                        $('#online').attr({ 'style': 'width:10px; height:10px; background:#e21414; border-radius:100%; opacity:1' });
                         onl = 0;
                     }
                     setTimeout(getLogs, 2000, 50);
@@ -110,16 +110,16 @@
             $('body').on('click', '#processMonitor', () => { 
                 $('#processMonitor_content').show();
                 $('#chatLogs_content').hide();
-                $('#processMonitor_content .loadingGif').attr({'style' : 'display:block; height:40px;'});
+                $('#processMonitor_content .loadingGif').attr({ 'style': 'display:block; height:40px;' });
                 $('#processMonitor_content pre').html('');
-                $.get('/monitor').then(data => {
+                $.get('/monitor').done(data => {
                     data.dat = data.dat.slice(0, -3); //Убираем лишние элементы
                     let processes = '';
                     for (let i = 0; i < data.dat.length; i++) processes += data.dat[i] + '\n';
                     $('#processMonitor_content pre').text(processes);
-                    $('.loadingGif').attr({'style' : 'display:none; height:40px;'});
+                    $('.loadingGif').attr({ 'style': 'display:none; height:40px;' });
                     $('#processMonitor_content pre').show();
-                });
+                }).fail(err => { alert(err) });
             });
             
             // Меню - завершение процессов
@@ -133,11 +133,11 @@
             $('#killProcess_input').on('keydown', e => {
                 if (e.keyCode == "13") {
                     e.preventDefault();
-                    $.post('/kill', {"name": $('#killProcess_input').val()}).then(data => {
+                    $.post('/kill', { "name": $('#killProcess_input').val() }).done(data => {
                         alert(data);
                         $('#killProcess_input').val("");
-                    }).error(e => {
-                        alert(data);
+                    }).fail(err => {
+                        alert(err);
                         $('#killProcess_input').val("");
                     });
                 }
