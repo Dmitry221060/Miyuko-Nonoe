@@ -3,7 +3,7 @@ This project is a bot, developed by me for the [DS & HK server](https://discord.
 <br />**Note: To use 100% of the project features, you need to have a user and a bot accounts**
 
 ## Download all dependencies
-npm i discord.js express express-fileupload body-parser mongodb winston jsdom require-all images dropbox
+npm i discord.js@11.3.2 express@4.15.4 express-fileupload@0.4.0 body-parser@1.18.2 mongodb@2.2.35 winston@2.4.2 jsdom@11.5.1 require-all@2.2.0 images@3.0.1 dropbox@2.5.7
 
 ## Configure
 Open the config.json and fill empty fields:
