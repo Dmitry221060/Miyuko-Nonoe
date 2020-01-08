@@ -25,4 +25,4 @@ OR<br />
 2. Launch "run" at "pathToThisProject/run.bat"
 
 
-Done! Until you close the console windows, the bot will be online. If you need some help, add me in Discord - `Dmitry221060#8728`
+Done! Until you close the console windows, the bot will be online. If you need some help, add me in Discord - `Dmitry221060#3928`
