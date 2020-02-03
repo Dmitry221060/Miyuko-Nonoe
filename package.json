@@ -1,0 +1,52 @@
+{
+  "name": "Miyuko-Nonoe",
+  "version": "2.0.0",
+  "description": "Discord bot and your personal companion.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run lint",
+	"lint": "eslint ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dmitry221060/Miyuko-Nonoe.git"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "discord-api",
+    "discord-bot",
+    "discord-js"
+  ],
+  "author": "Dmitry221060 <ya.dima42103ya@yandex.ru>",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bufferutil": "^4.0.1",
+    "canvas": "^2.6.1",
+    "discord.js": "^11.5.1",
+	"dropbox": "^4.0.30",
+    "erlpack": "github:discordapp/erlpack",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.2",
+    "node-opus": "git+https://github.com/Dmitry221060/node12-opus-win32.git",
+    "opusscript": "0.0.7",
+    "require-all": "^3.0.0",
+    "sodium": "^3.0.2",
+	"utf-8-validate": "^5.0.2",
+    "winston": "^3.2.1",
+    "ytdl-core-discord": "git+https://github.com/amishshah/ytdl-core-discord.git",
+    "ytpl": "^0.1.19",
+    "zlib-sync": "^0.1.6"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  },
+  "engines": {
+    "node": ">=13"
+  },
+  "bugs": {
+    "url": "https://github.com/Dmitry221060/Miyuko-Nonoe/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Dmitry221060/Miyuko-Nonoe#readme"
+}

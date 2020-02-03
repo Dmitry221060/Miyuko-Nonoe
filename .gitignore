@@ -1,0 +1,17 @@
+# Скрипты запуска
+*.lnk
+*.bat
+*.vbs
+
+# Dev-файлы
+node_modules/
+versions/
+archived/
+TEMPLATE.js
+*.rar
+*.tmp
+
+# Прочее
+*.txt
+Work logs/
+Logs/

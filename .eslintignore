@@ -1,0 +1,8 @@
+# Dev-файлы
+node_modules/
+versions/
+archived/
+TEMPLATE.js
+
+# Файлы содержащие приватные поля класса
+botData.js

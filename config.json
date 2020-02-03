@@ -1,16 +1,23 @@
 {
+	"bot": {
+		"token": "",
+		"serverID": "",
+		"loggedChannels": [],
+		"voiceChannels": [],
+		"maxShortcutSize": 500,
+		"AFKRoleID": ""
+	},
 	"express": {
 		"port": 8080
 	},
 	"mongodb": {
-		"url": "mongodb://localhost:27017/discordDB"
+		"url": "mongodb://localhost:27017/",
+		"dbName": "discordDB"
 	},
 	"logger": {
-		"debug": true,
-		"path": ""
+		"debug": true
 	},
-	"token": "",
-	"botToken": "",
-	"ownerIP": "",
-	"dropboxToken": ""
+	"dropbox": {
+		"token": ""
+	}
 }
