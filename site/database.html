@@ -280,7 +280,7 @@
 				param = {}; //Отчистить переменную
 				if (method == 'find') { //Если запрашиваемый метод - поиск, занести в объект параметров все не пустые поля
 					function fillParam(fieldName, json) { //Если json is true, значение будет помещено в param[fieldName] как json
-						const value = $('#find .secondMenu .' + fieldName + ' input').val();
+						let value = $('#find .secondMenu .' + fieldName + ' input').val();
 						if (!value) return;
 						if ((/^\s*\{/).test(value)) { //Если в поле находится объект
 							try {
@@ -367,7 +367,7 @@
 							$('.message.success').attr("style", "display:block; animation: blink 2s 2 alternate;"); //Отобразить его
 							setTimeout(function () {$('.message.success').attr("style", "display:none;")}, 4000); //И убрать анимацию через 4 секунды, для повторного использования
 						} else if (data.length != 0) { //Если метод был find и данные присутствуют - собрать таблицу
-							$('#table table').html('<tr id="header"><th colspan="10"></th></tr><tr id="columnNames"></tr>'); //Сбросить данные в таблице
+							$('#table tbody').html('<tr id="header"><th colspan="10"></th></tr><tr id="columnNames"></tr>'); //Сбросить данные в таблице
 							$("#footerNav").remove();
 							$("table #header th").text("DB_" + collection) //Записать название коллекции
 							document.querySelector("#table").style.display = "block"
