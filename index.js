@@ -32,6 +32,7 @@ async function processNewMessages() {
             let LMID = await client.data.get(channelID + ".LMID");
             const toInsert = [];
             const messages = await fetchMessages(client, channelID, Infinity, LMID);
+            if (!messages.length) continue;
             for (const msg of messages) {
                 let content = msg.content.replace(/ {2,}/g, " ");
                 if (msg.attachments.size && msg.attachments.first().url) {
@@ -40,8 +41,9 @@ async function processNewMessages() {
                 }
                 if (content != "") toInsert.push({ "userID": msg.author.id, content });
             }
+            LMID = messages[messages.length - 1].id;
             const actualLMID = await client.data.get(channelID + ".LMID");
-            if (+LMID > +actualLMID) client.data.set(channelID + ".LMID", LMID);
+            if (BigInt(LMID) > BigInt(actualLMID)) client.data.set(channelID + ".LMID", LMID);
             if (toInsert.length) await client.db.collection("logs").insertMany(toInsert);
         }
     } catch(err) {
