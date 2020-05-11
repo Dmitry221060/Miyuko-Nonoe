@@ -1,4 +1,4 @@
-﻿const config = require("../config.json");
+const config = require("../config.json");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const logger = require("./logger");
@@ -25,13 +25,13 @@ module.exports = async function setupClient() {
     });
     for (const commandClass in commandClasses) {
         const command = new commandClasses[commandClass](client);
-        if (aliases && aliases.length) {
+        if (aliases.length) {
             for (const alias of command.aliases) {
                 if (aliases.includes(alias)) throw "UnitTestError: Duplicated command alias \"" + alias + "\" for command " + command.name;
                 if (alias != alias.toLowerCase()) throw "UnitTestError: camelCase alias \"" + alias + "\" for command " + command.name;
             }
-            aliases = aliases.concat(command.aliases);
         }
+        aliases = aliases.concat(command.aliases);
         commands.set(command.name, command);
         groupNames.add(command.group);
     }
