@@ -1,10 +1,10 @@
 {
   "name": "Miyuko-Nonoe",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Discord bot and your personal companion.",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint",
+    "test": "yarn lint",
     "lint": "eslint ./"
   },
   "repository": {
@@ -20,6 +20,7 @@
   ],
   "author": "Dmitry221060 <ya.dima42103ya@yandex.ru>",
   "dependencies": {
+    "@discordjs/opus": "^0.3.2",
     "body-parser": "^1.19.0",
     "bufferutil": "^4.0.1",
     "canvas": "^2.6.1",
@@ -27,11 +28,9 @@
     "dropbox": "^4.0.30",
     "erlpack": "^0.1.3",
     "express": "^4.17.1",
+    "libsodium-wrappers": "^0.7.8",
     "mongodb": "^3.5.2",
-    "node-opus": "git+https://github.com/Dmitry221060/node12-opus-win32.git",
-    "opusscript": "0.0.7",
     "require-all": "^3.0.0",
-    "sodium": "^3.0.2",
     "utf-8-validate": "^5.0.2",
     "winston": "^3.2.1",
     "ytdl-core-discord": "^1.2.0",
